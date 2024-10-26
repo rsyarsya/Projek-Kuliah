@@ -1,0 +1,132 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Struktur data untuk menyimpan informasi siswa
+struct StudentType {
+    string firstName;  // Nama depan siswa
+    string lastName;   // Nama belakang siswa
+    int testScore;     // Skor tes siswa
+    char grade;        // Nilai berdasarkan skor
+};
+
+// Deklarasi fungsi
+void initializeData(vector<StudentType>& students);
+void assignGrades(vector<StudentType>& students);
+int findHighestScore(const vector<StudentType>& students);
+void printStudentsWithHighestScore(const vector<StudentType>& students, int highestScore);
+void printAllStudents(const vector<StudentType>& students);
+void inputStudentData(vector<StudentType>& students);
+
+int main() {
+    const int TOTAL_STUDENTS = 20;
+    vector<StudentType> students(TOTAL_STUDENTS);
+    int choice;
+
+    cout << "Pilih Mode:\n1. Mode Data Pre-filled\n2. Mode Input Manual\nPilihan: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        // Inisialisasi dengan data contoh
+        initializeData(students);
+    } else if (choice == 2) {
+        // Memungkinkan pengguna untuk memasukkan data
+        inputStudentData(students);
+    } else {
+        cout << "Pilihan tidak valid. Keluar.\n";
+        return 1;
+    }
+
+    assignGrades(students);
+    int highestScore = findHighestScore(students);
+    printAllStudents(students);
+    printStudentsWithHighestScore(students, highestScore);
+
+    return 0;
+}
+
+// Fungsi untuk inisialisasi data siswa dengan data contoh
+void initializeData(vector<StudentType>& students) {
+    // Data nama untuk 20 siswa
+    string firstNames[20] = {"Arsya", "Sulthan", "Evan", "Dayat", "Ripster", "Yudhis", "Farrel", "Ardhana", "Levi", "Fabyan",
+                             "Yogo", "Kahar", "Mas", "Pamung", "Kos", "Syauqi", "Hendra", "Nafa", "Jamsir", "DahAh"};
+    string lastNames[20] = {"Gantengrilnofek", "Hitam", "Badut", "Sigma", "Hamilton", "LeBron", "Sedboy", "Playboy", "Gerung", "Homo",
+                            "Yoga", "Racing", "Kobis", "Dalangan", "Burina", "CahSmaga", "Fmipa", "Ruddin", "Mabar", "Capek"};
+    int scores[20] = {100, 92, 76, 81, 95, 69, 78, 85, 90, 83, 87, 94, 91, 77, 96, 89, 73, 80, 84, 82};
+
+    for (int i = 0; i < students.size(); ++i) {
+        students[i].firstName = firstNames[i];
+        students[i].lastName = lastNames[i];
+        students[i].testScore = scores[i];
+    }
+}
+
+// Fungsi untuk meminta pengguna memasukkan data siswa secara manual
+void inputStudentData(vector<StudentType>& students) {
+    for (int i = 0; i < students.size(); ++i) {
+        cout << "Masukkan nama depan siswa " << (i + 1) << ": ";
+        cin >> students[i].firstName;
+        cout << "Masukkan nama belakang siswa " << (i + 1) << ": ";
+        cin >> students[i].lastName;
+        cout << "Masukkan skor tes siswa " << (i + 1) << " (0-100): ";
+        cin >> students[i].testScore;
+
+        // Memastikan skor antara 0 dan 100
+        while (students[i].testScore < 0 || students[i].testScore > 100) {
+            cout << "Skor tidak valid! Masukkan skor antara 0 dan 100: ";
+            cin >> students[i].testScore;
+        }
+    }
+}
+
+// Fungsi untuk menetapkan nilai berdasarkan skor siswa
+void assignGrades(vector<StudentType>& students) {
+    for (int i = 0; i < students.size(); ++i) {
+        if (students[i].testScore >= 90) {
+            students[i].grade = 'A';
+        } else if (students[i].testScore >= 80) {
+            students[i].grade = 'B';
+        } else if (students[i].testScore >= 70) {
+            students[i].grade = 'C';
+        } else if (students[i].testScore >= 60) {
+            students[i].grade = 'D';
+        } else {
+            students[i].grade = 'F';
+        }
+    }
+}
+
+// Fungsi untuk menemukan skor tertinggi di antara semua siswa
+int findHighestScore(const vector<StudentType>& students) {
+    int highest = students[0].testScore;
+    for (int i = 1; i < students.size(); ++i) {
+        if (students[i].testScore > highest) {
+            highest = students[i].testScore;
+        }
+    }
+    return highest;
+}
+
+// Fungsi untuk menampilkan seluruh data siswa secara terformat
+void printAllStudents(const vector<StudentType>& students) {
+    cout << "\nData Siswa:\n";
+    cout << left << setw(15) << "Nama Belakang" << setw(15) << "Nama Depan" << setw(10) << "Skor" << setw(5) << "Nilai\n";
+    cout << "--------------------------------------------------------\n";
+    for (int i = 0; i < students.size(); ++i) {
+        cout << left << setw(15) << students[i].lastName << setw(15) << students[i].firstName 
+             << setw(10) << students[i].testScore << setw(5) << students[i].grade << '\n';
+    }
+}
+
+// Fungsi untuk menampilkan nama siswa dengan skor tertinggi
+void printStudentsWithHighestScore(const vector<StudentType>& students, int highestScore) {
+    cout << "\nSiswa dengan skor tertinggi (" << highestScore << "):\n";
+    for (int i = 0; i < students.size(); ++i) {
+        if (students[i].testScore == highestScore) {
+            cout << students[i].firstName << " " << students[i].lastName << '\n';
+        }
+    }
+}
