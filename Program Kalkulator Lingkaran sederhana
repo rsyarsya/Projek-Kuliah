@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Menetapkan Konstanta PI
+const double PI = 3.1416;
+
+// Fungsi untuk menghitung jarak antara dua titik
+double distance(double x1, double y1, double x2, double y2) {
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
+// Fungsi untuk menghitung radius lingkaran
+double radius(double centerX, double centerY, double pointX, double pointY) {
+    return distance(centerX, centerY, pointX, pointY);
+}
+
+// Fungsi untuk menghitung keliling lingkaran
+double circumference(double r) {
+    return 2 * PI * r;
+}
+
+// Fungsi untuk menghitung luas lingkaran
+double area(double r) {
+    return PI * pow(r, 2);
+}
+
+int main() {
+    double centerX, centerY, pointX, pointY;
+    
+    // Header program
+    cout << "==================================" << endl;
+    cout << "Program Kalkulator Lingkaran" << endl;
+    cout << "==================================" << endl;
+    
+    // Input data dari user
+    cout << "\nMasukkan koordinat titik pusat lingkaran:" << endl;
+    cout << "X1: "; cin >> centerX;
+    cout << "Y1: "; cin >> centerY;
+    
+    cout << "\nMasukkan koordinat titik pada lingkaran:" << endl;
+    cout << "X2: "; cin >> pointX;
+    cout << "Y2: "; cin >> pointY;
+    
+    // Menghitung semua properti lingkaran
+    double r = radius(centerX, centerY, pointX, pointY);
+    double d = 2 * r;
+    double c = circumference(r);
+    double a = area(r);
+    
+    // Menampilkan hasil perhitungan
+    cout << "\n==================================" << endl;
+    cout << "Hasil Perhitungan:" << endl;
+    cout << "==================================" << endl;
+    cout << "Radius lingkaran       : " << r << endl;
+    cout << "Diameter lingkaran     : " << d << endl;
+    cout << "Keliling lingkaran     : " << c << endl;
+    cout << "Luas lingkaran         : " << a << endl;
+    cout << "==================================" << endl;
+    
+    return 0;
+}
